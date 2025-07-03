@@ -1,5 +1,8 @@
 import * as React from "react"
-import { GalleryVerticalEnd } from "lucide-react"
+import { GalleryVerticalEnd, Gamepad2, MapPinned, House, Cog, Film } from "lucide-react"
+import DashboardView from '../views/Dashboard/Dashboard'
+import { Link, useLocation } from "react-router-dom"
+
 
 import {
   Sidebar,
@@ -14,8 +17,9 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+//import Dashboard from "@/views/Control/Control"
 
-// This is sample data.
+// Sample data.
 const data = {
   navMain: [
     {
@@ -23,133 +27,29 @@ const data = {
       url: "#",
       items: [
         {
-          title: "Installation",
-          url: "#",
+          title: "Dashboard",  
+          url: "/dashboard",
+          icon: <House />
         },
         {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Building Your Application",
-      url: "#",
-      items: [
-        {
-          title: "Routing",
-          url: "#",
+          title: "Control",  
+          url: "/control",
+          icon: <Gamepad2 />
         },
         {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true,
+          title: "Autopilot",
+          url: "/autopilot",
+          icon: <MapPinned />
         },
         {
-          title: "Rendering",
-          url: "#",
+          title: "Media",
+          url: "/media",
+          icon: <Film />
         },
         {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "API Reference",
-      url: "#",
-      items: [
-        {
-          title: "Components",
-          url: "#",
-        },
-        {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Community",
-      url: "#",
-      items: [
-        {
-          title: "Contribution Guide",
-          url: "#",
+          title: "Sistema",
+          url: "/sistema",
+          icon: <Cog />
         },
       ],
     },
@@ -157,21 +57,31 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const location = useLocation()
+
   return (
-    <Sidebar {...props}>
+    <Sidebar 
+      {...props}
+      style={{ background: "hsl(161.4, 93.5%, 30.4%)"}}
+      className="text-while"
+      >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <GalleryVerticalEnd className="size-4" />
+              <Link to="/">
+                <div
+                  className="text-white flex aspect-square size-8 items-center justify-center rounded-lg"
+                  style={{ backgroundColor: "white" }}
+                >
+                  <GalleryVerticalEnd className="size-4 text-[hsl(161.4,93.5%,30.4%)]" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-medium">Documentation</span>
-                  <span className="">v1.0.0</span>
+                  <span>v1.0.0</span>
                 </div>
-              </a>
+              </Link>
+
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -182,21 +92,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {data.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <a href={item.url} className="font-medium">
+                  <Link to = {item.url} className="font-medium">
                     {item.title}
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
-                {item.items?.length ? (
+                {item.items?.length > 0 && (
                   <SidebarMenuSub>
-                    {item.items.map((item) => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={item.isActive}>
-                          <a href={item.url}>{item.title}</a>
+                    {item.items.map((subitem) => (
+                      <SidebarMenuSubItem key={subitem.title}>
+                        <SidebarMenuSubButton
+                          asChild
+                          isActive={location.pathname === subitem.url}
+                        >
+                          <Link to={subitem.url} className="flex items-center gap-2">
+                            {subitem.icon}
+                            <span>{subitem.title}</span>
+                          </Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
                   </SidebarMenuSub>
-                ) : null}
+                ) }
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
@@ -206,3 +122,4 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   )
 }
+
