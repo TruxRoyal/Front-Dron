@@ -1,7 +1,24 @@
 import { Card } from "@/components/ui/card";
+import * as React from "react"
+import { CheckIcon, ChevronsUpDownIcon } from "lucide-react"
 import { SlashIcon } from "lucide-react";
+import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom";
 import "./FlightMissions.css";
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import {
   Pagination,
   PaginationContent,
@@ -31,10 +48,70 @@ const images = [
   { src: img2, date: "24-08-2023" },
 ];
 
+const frameworks = [
+  {
+    value: "next.js",
+    label: "Next.js",
+  },
+  {
+    value: "sveltekit",
+    label: "SvelteKit",
+  },
+]
+
 export default function FlightMissionsView() {
+  const [open, setOpen] = React.useState(false)
+  const [value, setValue] = React.useState("")
   return (
+    
+
+
     <div className="w-full min-h-screen bg-emerald-50 p-4">
       <div className="bg-emerald-800 text-white rounded-lg p-6 max-w-screen-xl mx-auto">
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="w-[200px] justify-between"
+            >
+              {value
+                ? frameworks.find((framework) => framework.value === value)?.label
+                : "Buscar Recorrido"}
+              <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[200px] p-0">
+            <Command>
+              <CommandInput placeholder="Buscar Por Fecha..." />
+              <CommandList>
+                <CommandEmpty>No framework found.</CommandEmpty>
+                <CommandGroup>
+                  {frameworks.map((framework) => (
+                    <CommandItem
+                      key={framework.value}
+                      value={framework.value}
+                      onSelect={(currentValue) => {
+                        setValue(currentValue === value ? "" : currentValue)
+                        setOpen(false)
+                      }}
+                    >
+                      <CheckIcon
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          value === framework.value ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {framework.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+
         <div className="flex justify-center mb-6">
           <Breadcrumb>
             <BreadcrumbList>

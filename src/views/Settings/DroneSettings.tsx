@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { Separator } from "@/components/ui/separator"
+import { useNavigate } from "react-router-dom"
+
 import {
   Select,
   SelectContent,
@@ -14,6 +16,7 @@ import {
 import "./sistema.css"
 
 export default function SistemaView() {
+  const navigate = useNavigate()
   const [altitud, setAltitud] = useState(3)
   const [velocidad, setVelocidad] = useState(2)
   const [modoVuelo, setModoVuelo] = useState("Normal")
@@ -27,15 +30,9 @@ export default function SistemaView() {
         <div className="sistema-menu bg-white">
           <h1 className="menu-title text-black">Configuración</h1>
           <div className="menu-options">
-            <div>
-              <Button className="w-full bg-emerald-400 hover:bg-emerald-500">Dron</Button>
-            </div>
-            <div className="option text-black">
-              <Button className="w-full bg-emerald-400 hover:bg-emerald-500">Aplicativo</Button>
-            </div>
-            <div className="option text-black">
-              <Button className="w-full bg-emerald-400 hover:bg-emerald-500">Avanzadas</Button>
-            </div>
+              <Button className="w-full bg-emerald-400 hover:bg-emerald-500 hover:scale-105" onClick={() => navigate("/sistema")} >Dron</Button>
+              <Button className="w-full bg-emerald-400 hover:bg-emerald-500 hover:scale-105" onClick={() => navigate("/aplicativo")}>Aplicativo</Button>
+              <Button className="w-full bg-emerald-400 hover:bg-emerald-500 hover:scale-105" onClick={() => navigate("/avanzadas")}>Avanzadas</Button>
           </div>
         </div>
 
