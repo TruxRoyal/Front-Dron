@@ -17,9 +17,6 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
-//import Dashboard from "@/views/Control/Control"
-
-// Sample data.
 const data = {
   navMain: [
     {
@@ -43,7 +40,7 @@ const data = {
         },
         {
           title: "Media",
-          url: "/media",
+          url: "/flightmissions",
           icon: <Film />
         },
         {
@@ -62,8 +59,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar 
       {...props}
-      style={{ background: "hsl(161.4, 93.5%, 30.4%)"}}
-      className="text-while"
+      className="!bg-[oklch(0.6245_0.1879_158.52)] text-white"
       >
       <SidebarHeader>
         <SidebarMenu>
