@@ -21,7 +21,7 @@ export default function Dashboard() {
   )
 
   return (
-    <div className="w-full min-h-screen bg-emerald-50 flex p-4">
+    <div className="w-full flex p-4">
       <div className="w-2/3 pr-4">
         <Carousel
           plugins={[plugin.current]}

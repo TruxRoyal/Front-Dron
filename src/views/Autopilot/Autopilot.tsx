@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export default function AutopilotView() {
   return (
-    <div className="w-full min-h-screen bg-emerald-100 p-4">
+    <div className="w-full bg-emerald-100 p-4">
       <h2 className="text-2xl font-bold text-emerald-700 mb-4 text-center">Mapa Ruta</h2>
       <div className="grid grid-cols-12 gap-4 max-w-screen-xl mx-auto">
 
