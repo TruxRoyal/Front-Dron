@@ -42,14 +42,14 @@ const startPollingGamepad = () => {
         if (!gamepad) return;
 
         const scale = 30;
-        const x = Math.round(gamepad.axes[0] * scale);    // Izquierda / derecha
-        const y = Math.round(-gamepad.axes[1] * scale);   // Adelante / atrás
-        const z = Math.round(-gamepad.axes[3] * scale);   // Arriba / abajo
-        const yaw = Math.round(gamepad.axes[2] * scale);  // Rotación
+        const x = Math.round(gamepad.axes[0] * scale);    // Left / Right
+        const y = Math.round(-gamepad.axes[1] * scale);   // Forward / Backward
+        const z = Math.round(-gamepad.axes[3] * scale);   // Up / Down
+        const yaw = Math.round(gamepad.axes[2] * scale);  // Rotation
 
         emitRCControlIfSignificant(x, y, z, yaw, 10);
 
-        // 🎮 Detectar LT + RT presionados para despegar
+        // Detect takeoff with LT + RT
         const lt = gamepad.buttons[6]?.value || 0;
         const rt = gamepad.buttons[7]?.value || 0;
 
@@ -59,22 +59,22 @@ const startPollingGamepad = () => {
             takeoffTriggered = true;
         }
         
-        // Reiniciar flag si se sueltan los gatillos
+        // Reload takeoff trigger if LT or RT is released
         if (lt < 0.5 || rt < 0.5) {
             takeoffTriggered = false;
         }
 
-        // 📸 Botón A para foto
+        // Button A for capture photo
         if (gamepad.buttons[0].pressed) {
             socketInstance.emit("capture_photo");
         }
 
-        //Boton B
+        // Button B
         if (gamepad.buttons[1]?.pressed) {
             socketInstance.emit("land");
         }
 
-        //Boton Y para grabar y detener grabación
+        // Button Y recording toggle
         if (gamepad.buttons[3]?.pressed) {
             isRecording = !isRecording;
             socketInstance.emit(isRecording ? "start_recording" : "stop_recording");

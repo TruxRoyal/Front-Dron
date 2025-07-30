@@ -21,9 +21,9 @@ export const updateDroneStatusUI = (status: DroneResponse) => {
     if (flightEl) flightEl.textContent = flightStatus;
 };
 
-export const showAlert = (message: string) => {
+/*export const showAlert = (message: string) => {
     alert(message);
-};
+};*/
 
 export const logAction = (message: string) => {
     console.log(`[UI] ${message}`);

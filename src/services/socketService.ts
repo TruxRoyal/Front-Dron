@@ -8,7 +8,7 @@ interface DroneResponse {
 
 type StatusUpdateCallback = (status: any) => void;
 
-const SOCKET_URL = process.env.SOCKET_URL || "https://localhost::5000";
+const SOCKET_URL = "https://localhost:5000";
 
 export const socket: Socket = io(SOCKET_URL, {
   transports: ["websocket"],
@@ -35,10 +35,8 @@ export const setupSocketEvents = (onStatusUpdate: StatusUpdateCallback): void =>
   });
 };
 
-// Enviar comandos al backend
 export const sendCommand = (command: string, data: Record<string, any> = {}): void => {
   socket.emit(command, data);
 };
 
-// Exportación para uso directo si se necesita
 export const socketInstance = socket;
