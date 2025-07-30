@@ -8,7 +8,7 @@ interface DroneResponse {
 
 type StatusUpdateCallback = (status: any) => void;
 
-const SOCKET_URL = process.env.SOCKET_URL || "http://127.0.0.1:5000"
+const SOCKET_URL = process.env.SOCKET_URL || "https://localhost::5000";
 
 export const socket: Socket = io(SOCKET_URL, {
   transports: ["websocket"],
