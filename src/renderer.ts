@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (button) {
       button.addEventListener("click", handler);
     } else {
-      console.warn(`⚠️ Botón con id "${id}" no encontrado.`);
+      console.warn(`⚠️ Botón con id "${id}" not found.`);
     }
   };
 

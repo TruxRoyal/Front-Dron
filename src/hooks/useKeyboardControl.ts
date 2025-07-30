@@ -7,6 +7,8 @@ let precisionMode = false;
 let isRecording = false;
 let rcInterval: ReturnType<typeof setInterval> | null = null;
 
+const intervalMs = 150;
+
 const isAxisAction = (action: KeyAction): action is Extract<KeyAction, { axis: string }> => {
   return "axis" in action && "value" in action;
 };
@@ -73,7 +75,7 @@ export const setupKeyboardControls = () => {
     }
 
     if (!rcInterval) {
-      rcInterval = setInterval(updateRCState, 150);
+      rcInterval = setInterval(updateRCState, intervalMs);
     }
   });
 

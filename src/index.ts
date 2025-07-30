@@ -52,7 +52,7 @@ const createWindow = (): void => {
     autoHideMenuBar: true,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      webSecurity: true // Mantener habilitado para seguridad
+      webSecurity: true
     },
   });
 

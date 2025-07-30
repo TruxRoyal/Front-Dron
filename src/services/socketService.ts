@@ -1,22 +1,19 @@
-// src/services/socketService.ts
 import { io, Socket } from "socket.io-client";
 
-// Define los tipos que usarás
 interface DroneResponse {
   action: string;
   status?: boolean;
   [key: string]: any;
 }
 
-// Puedes tipar también el callback que recibirás
 type StatusUpdateCallback = (status: any) => void;
 
-// Instancia única del socket
-export const socket: Socket = io("http://127.0.0.1:5000", {
-  transports: ["websocket"], // Asegura conexión estable
+const SOCKET_URL = process.env.SOCKET_URL || "http://127.0.0.1:5000"
+
+export const socket: Socket = io(SOCKET_URL, {
+  transports: ["websocket"],
 });
 
-// Setup de eventos del socket
 export const setupSocketEvents = (onStatusUpdate: StatusUpdateCallback): void => {
   socket.on("connect", () => {
     console.log("✅ Conectado al WebSocket", socket.id);
