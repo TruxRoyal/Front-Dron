@@ -16,7 +16,6 @@ const root = createRoot(document.body);
 root.render(
   <HashRouter>
       <Routes>
-        
         <Route path="/" element={<Page />}>
             <Route path="dashboard" element={<DashboardView />} />
             <Route path="control" element={<ControlView />} />

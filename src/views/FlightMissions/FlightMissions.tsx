@@ -66,7 +66,7 @@ export default function FlightMissionsView() {
     
 
 
-    <div className="w-full min-h-screen bg-emerald-50 p-4">
+    <div className="w-full bg-emerald-50 p-4">
       <div className="bg-emerald-800 text-white rounded-lg p-6 max-w-screen-xl mx-auto">
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
