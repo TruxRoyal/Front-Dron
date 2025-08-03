@@ -49,7 +49,7 @@ const createWindow = (): void => {
     width: Math.floor(width * 0.6),
     height: Math.floor(height * 0.6),
     center: true,
-    autoHideMenuBar: true,
+    autoHideMenuBar: false,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       webSecurity: true

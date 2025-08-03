@@ -8,7 +8,7 @@ import "./App";
 
 // Servicios
 import { setupSocketEvents, sendCommand } from "./services/socketService";
-import { updateDroneStatusUI, showAlert } from "./services/uiService";
+import { updateDroneStatusUI } from "./services/uiService";
 import { startVideoStream } from "./services/imageService";
 
 // Controles
@@ -36,7 +36,7 @@ window.addEventListener("DOMContentLoaded", () => {
   bindButton("stop-recording-btn", () => sendCommand("stop_recording"));
   bindButton("reset-drone", () => {
     sendCommand("reset");
-    showAlert("♻️ Reiniciando conexión con el dron...");
+    //showAlert("♻️ Reiniciando conexión con el dron...");
   });
 
   // Controles

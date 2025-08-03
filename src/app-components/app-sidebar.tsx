@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Gamepad2, MapPinned, House, Cog, Film, Drone } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
-
+import { ModeToggle } from "./mode-toggle"
 
 import {
   Sidebar,
@@ -85,6 +85,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
+      <div className="p-4 mt-auto flex justify-start">
+        <ModeToggle />
+      </div>
     </Sidebar>
   )
 }
