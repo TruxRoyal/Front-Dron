@@ -37,7 +37,7 @@ const data = {
     },
     {
       title: "Sistema",
-      url: "/sistema",
+      url: "/initial",
       icon: <Cog />
     },
   ]

@@ -8,7 +8,7 @@ import "./App";
 
 // Servicios
 import { setupSocketEvents, sendCommand } from "./services/socketService";
-import { updateDroneStatusUI, showAlert } from "./services/uiService";
+import { updateDroneStatusUI } from "./services/uiService";
 import { startVideoStream } from "./services/imageService";
 
 // Controles
