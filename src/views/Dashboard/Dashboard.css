@@ -1,12 +1,9 @@
-/* Layout principal */
 .dashboard-layout {
   display: flex;
   justify-content: space-between;
   padding: 1rem;
   gap: 2rem;
 }
-
-/* Carrusel */
 .carousel-wrapper {
   width: 100%;
   max-width: 20rem;

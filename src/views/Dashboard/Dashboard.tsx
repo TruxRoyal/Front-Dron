@@ -25,7 +25,7 @@ export default function Dashboard() {
       <div className="w-2/3 pr-4">
         <Carousel
           plugins={[plugin.current]}
-          className="w-full max-w-md"
+          className="w-full max-w-md relative"
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
         >
@@ -42,8 +42,8 @@ export default function Dashboard() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="left-2 top-1/2 -translate-y-1/2"/>
+          <CarouselNext className="right-2 top-1/2 -translate-y-1/2"/>
         </Carousel>
 
         <div className="button">

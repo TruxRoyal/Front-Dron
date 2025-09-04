@@ -10,6 +10,7 @@ import FlightreportView from "./views/FlightReport/FlightReport";
 import DroneSettingsView from "./views/Settings/DroneSettings";
 import AppSettingsView from "./views/Settings/AppSettings";
 import AdvancedSettingsView from "./views/Settings/AdvancedSettings";
+import InitialSettings from "./views/Settings/InitialSettings";
 
 const root = createRoot(document.body);
 
@@ -25,6 +26,7 @@ root.render(
             <Route path="flightreport" element={<FlightreportView />} />
             <Route path="aplicativo" element={<AppSettingsView />} />
             <Route path="avanzadas" element={<AdvancedSettingsView />} />
+            <Route path="initial" element={<InitialSettings />} />
             <Route index element={<DashboardView />} />
         </Route>
       </Routes>
