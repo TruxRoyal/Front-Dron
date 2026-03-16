@@ -88,7 +88,7 @@ export const useWifiStore = create<WifiState>((set) => ({
 
         try {
             if (!password && !/^TELLO/i.test(ssid)) {
-                throw new Error("Password required for this network");
+                throw new Error("Se requiere contraseña para esta red");
             }
 
             await window.electronAPI.wifi.connect(ssid, password);
