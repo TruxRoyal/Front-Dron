@@ -1,173 +1,95 @@
-"use client";
-
-import "./Control.css";
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
+import { Compass, AlertOctagon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-  CameraIcon,
-  VideoIcon,
-} from "lucide-react";
+import { socket } from "@/services/socketService";
+import { useDroneVideoStream } from "./hooks/useDroneVideoSteam";
+import { useDualJoystick } from "./hooks/useDualJoystick";
+import { useDroneTelemetry } from "./hooks/useDroneTelemetry";
+import { useDroneInputControllers } from "./hooks/useDroneInputControllers";
 
-// 🧠 Importa los módulos lógicos
-import { startVideoStream } from "@/services/imageService";
-import { setupKeyboardControls } from "../../hooks/useKeyboardControl";
-import { setupGamepadControls } from "../../hooks/useGamepadController";
+import { ControlsModal } from "./components/ControlsModal";
+import { FlightControlsCard } from "./components/FlightControlsCard";
+import { VideoPanel } from "./components/VideoPanel";
 
-import { socket } from "@/services/socketService"; // acceso directo al socket
 
 export default function Control() {
+  const [recording, setRecording] = useState(false);
 
-  const [altitude, setAltitude] = useState(40);
-  const [velocity, setVelocity] = useState(65);
-  const [rotation, setRotation] = useState(30);
-  const [direction, setDirection] = useState(80);
+  const { videoRef, videoSrc, isVideoLoaded } = useDroneVideoStream();
+  const { leftJoystickRef, rightJoystickRef, leftJoystick, rightJoystick } = useDualJoystick();
 
-  useEffect(() => {
-    startVideoStream();
-    setupKeyboardControls();
-    setupGamepadControls();
+  const { isConnected: gamepadConnected, gamepadId } = useDroneInputControllers();
 
-    socket.on("video_frame", ({ image }) => {
-      if (videoRef.current) {
-        const base64 = `data:image/jpeg;base64,${image}`;
-        videoRef.current.src = base64;
-      }
-    });
+  const { altitude, speed, zoom, setZoom, altitudeProgress, rotationProgress, velocityProgress, directionProgress } 
+  = useDroneTelemetry({
+    leftJoystick,
+    rightJoystick,
+  });
 
+  const handleToggleRecording = () => {
+    setRecording((currentValue) => !currentValue);
+  };
 
-    socket.on("video_stopped", () => {
-      if (videoRef.current) {
-        videoRef.current.src = "";
-      }
-    });
+  const handleTakeoff = () => {
+    socket.emit("takeoff");
+  };
 
-    // 🧪 Simulación de valores de telemetría
-    const interval = setInterval(() => {
-      setAltitude(Math.floor(Math.random() * 101));
-      setVelocity(Math.floor(Math.random() * 101));
-      setRotation(Math.floor(Math.random() * 101));
-      setDirection(Math.floor(Math.random() * 101));
-    }, 2000);
-
-    return () => {
-      clearInterval(interval);
-      socket.off("video_frame");
-      socket.off("video_stopped");
-    };
-  }, []);
-
-  const videoRef = useRef<HTMLImageElement>(null);
-
+  const handleLand = () => {
+    socket.emit("land");
+  };
 
   return (
-    <div className="control-container">
-      {/* VIDEO */}
-      <div className="video-container">
-        <h2 className="video-title">Vuelo en tiempo real</h2>
-        <div className="video-display w-full h-[300px] bg-black rounded-lg overflow-hidden">
-          <img
-            ref={videoRef}
-            alt="Transmisión del dron"
-            className="w-full h-full object-cover"
-          />
-        </div>
+    <div className="h-full overflow-hidden p-4">
+      <div className="flex h-full min-h-0 flex-col gap-4">
+        <div className="flex items-center justify-between shrink-0">
+          <h3 className="text-2xl font-bold text-foreground">Vuelo en tiempo real</h3>
 
+          <div className="flex gap-3">
+             <ControlsModal
+              gamepadConnected={gamepadConnected}
+              gamepadId={gamepadId}
+            />
+            <Button variant="outline" className="border-primary text-primary hover:bg-primary/5 font-bold gap-2 rounded-lg">
+              <Compass size={16} />
+              Calibrar
+            </Button>
 
-        <div className="actions-container">
-          <div className="actions-buttons">
-            <Button variant="outline" className="capture-button">
-              <CameraIcon className="icon" />
-              Capturar Foto
-            </Button>
-            <Button variant="outline" className="capture-button video">
-              <VideoIcon className="icon" />
-              Capturar Video
-            </Button>
-          </div>
-
-          <div className="indicators">
-            <div className="indicator">
-              <Progress value={altitude} className="w-[100px]" />
-              <span>Altitud</span>
-            </div>
-            <div className="indicator">
-              <Progress value={rotation} className="w-[100px]" />
-              <span>Rotación</span>
-            </div>
-            <div className="indicator">
-              <Progress value={velocity} className="w-[100px]" />
-              <span>Velocidad</span>
-            </div>
-            <div className="indicator">
-              <Progress value={direction} className="w-[100px]" />
-              <span>Dirección</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="controls-container">
-        <h2 className="controls-title">Controles de Vuelo</h2>
-
-        <div className="controls-row">
-          <div className="control-group">
-            <Button variant="secondary" size="icon" className="control-button">
-              <ChevronUpIcon />
-            </Button>
-            <span>Despegar</span>
-          </div>
-          <div className="control-group">
-            <Button variant="secondary" size="icon" className="control-button">
-              <ChevronDownIcon />
-            </Button>
-            <span>Aterrizar</span>
-          </div>
-        </div>
-
-        <div className="control-section">
-          <span className="control-label">Altitud y Rotación</span>
-          <div className="joystick">
-            <Button variant="secondary" size="icon" className="control-button">
-              <ChevronUpIcon />
-            </Button>
-            <div className="joystick-horizontal">
-              <Button variant="secondary" size="icon" className="control-button">
-                <ChevronLeftIcon />
-              </Button>
-              <Button variant="secondary" size="icon" className="control-button">
-                <ChevronRightIcon />
-              </Button>
-            </div>
-            <Button variant="secondary" size="icon" className="control-button">
-              <ChevronDownIcon />
+            <Button variant="destructive" className="bg-destructive text-white font-bold gap-2 rounded-lg">
+              <AlertOctagon size={16} />
+              Parada de Emergencia
             </Button>
           </div>
         </div>
 
-        <div className="control-section">
-          <span className="control-label">Dirección</span>
-          <div className="joystick">
-            <Button variant="secondary" size="icon" className="control-button">
-              <ChevronUpIcon />
-            </Button>
-            <div className="joystick-horizontal">
-              <Button variant="secondary" size="icon" className="control-button">
-                <ChevronLeftIcon />
-              </Button>
-              <Button variant="secondary" size="icon" className="control-button">
-                <ChevronRightIcon />
-              </Button>
-            </div>
-            <Button variant="secondary" size="icon" className="control-button">
-              <ChevronDownIcon />
-            </Button>
+        <div className="grid flex-1 min-h-0 grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="lg:col-span-2 min-h-0">
+            <VideoPanel
+              videoRef={videoRef}
+              videoSrc={videoSrc}
+              isVideoLoaded={isVideoLoaded}
+              recording={recording}
+              zoom={zoom}
+              onToggleRecording={handleToggleRecording}
+              onZoomChange={setZoom}
+            />
+          </div>
+          <div className="min-h-0">
+            <FlightControlsCard
+              leftJoystickRef={leftJoystickRef}
+              rightJoystickRef={rightJoystickRef}
+              leftJoystick={leftJoystick}
+              rightJoystick={rightJoystick}
+              altitude={altitude}
+              speed={speed}
+              altitudeProgress={altitudeProgress}
+              rotationProgress={rotationProgress}
+              velocityProgress={velocityProgress}
+              directionProgress={directionProgress}
+              onTakeoff={handleTakeoff}
+              onLand={handleLand}
+            />
           </div>
         </div>
-
       </div>
     </div>
   );
