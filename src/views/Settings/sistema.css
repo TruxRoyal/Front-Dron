@@ -1,12 +1,10 @@
 .sistema-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 2rem 1rem;
-  min-height: calc(100vh - 64px); /* si el header mide 64px */
-  box-sizing: border-box;
-  border-radius: inherit;        /* 👈 respeta el borde del padre */
-  overflow: hidden;              /* 👈 evita sobresalir visualmente */
+  align-items: start;
+  padding-top: 1.5rem;
+  padding: 2rem;              
+  box-sizing: border-box; 
 }
 
 .sistema-box {
@@ -52,7 +50,7 @@
   border-radius: 0.75rem;
   padding: 2rem 2.5rem;
   width: 100%;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05); 
 }
 
 .panel-title {
