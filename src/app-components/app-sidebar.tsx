@@ -85,7 +85,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
-      <div className="p-4 mt-auto flex justify-start">
+      <div className="p-4 mt-auto flex justify-end">
         <ModeToggle />
       </div>
     </Sidebar>

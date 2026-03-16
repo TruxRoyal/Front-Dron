@@ -1,10 +1,17 @@
-// See the Electron documentation for details on how to use preload scripts:
-// https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
-// preload.ts o preload.js
 import { contextBridge, ipcRenderer } from 'electron';
 
-contextBridge.exposeInMainWorld('electronAPI', {
-  minimize: () => ipcRenderer.send('window:minimize'),
-  maximize: () => ipcRenderer.send('window:maximize'),
-  close: () => ipcRenderer.send('window:close')
-});
+const api = {
+  window: {
+    minimize: () => ipcRenderer.send('window:minimize'),
+    maximize: () => ipcRenderer.send('window:maximize'),
+    close: () => ipcRenderer.send('window:close'),
+  },
+  wifi: {
+    scanNetworks: () => ipcRenderer.invoke('wifi:scan'),
+    connect: (ssid: string, password?: string) =>
+      ipcRenderer.invoke('wifi:connect', { ssid, password }),
+    getCurrentConnection: () => ipcRenderer.invoke('wifi:current'),
+  },
+};
+
+contextBridge.exposeInMainWorld('electronAPI', api);

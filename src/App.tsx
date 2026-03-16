@@ -14,10 +14,16 @@ import AdvancedSettingsView from "./views/Settings/AdvancedSettings";
 
 import { ThemeProvider } from "@/app-components/theme-provider";
 
-const root = createRoot(document.body);
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error("Root element not found");
+}
+
+const root = createRoot(rootElement);
 
 root.render(
-  <ThemeProvider defaultTheme="dark" storageKey="electron-ui-theme">
+  <ThemeProvider storageKey="electron-ui-theme">
     <HashRouter>
       <Routes>
         <Route path="/" element={<Page />}>
