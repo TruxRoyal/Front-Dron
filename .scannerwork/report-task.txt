@@ -1,6 +1,0 @@
-projectKey=Frontend-Dron
-serverUrl=http://localhost:9000
-serverVersion=25.7.0.110598
-dashboardUrl=http://localhost:9000/dashboard?id=Frontend-Dron
-ceTaskId=6791b085-1ec7-440e-b974-4f024ced366a
-ceTaskUrl=http://localhost:9000/api/ce/task?id=6791b085-1ec7-440e-b974-4f024ced366a

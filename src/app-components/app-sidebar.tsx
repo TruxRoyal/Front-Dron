@@ -37,7 +37,7 @@ const data = {
     },
     {
       title: "Sistema",
-      url: "/initial",
+      url: "/sistema",
       icon: <Cog />
     },
   ]
@@ -59,7 +59,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <Drone className="!size-5" />
-                <span className="text-base font-semibold">AgroDron</span>
+                <span className="text-base font-semibold">AgroTello</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
